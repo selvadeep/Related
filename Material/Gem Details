@@ -1,0 +1,122 @@
+Plan -> Do -> Auditee do -> Check -> Publish
+
+Check -> Act(Auditee)->Check -> Publish
+
+Pending with auditee - Do
+Compliance (Cancel/Un-Approved) - Act
+
+Sanity
+
+
+1.	Postgres permission denied to create database on rake db:create:all
+
+	To access postgres console:
+
+	$ sudo -u postgres -i
+
+	postgres@host:~$ psql
+	In there:
+
+	postgres=# ALTER USER new_user CREATEDB;
+
+[ALTER DATABASE freshgrc_development OWNER TO aravind;
+GRANT ALL PRIVILEGES ON DATABASE smbgrc_development to aravind;]
+
+
+2.	tzinfo-data gem
+
+	TZInfo::Timezone.all -- List all timezone's
+
+
+
+3.	Works with all Ruby web frameworks including Rails, Sinatra,Rack,Padrino, etc.
+
+4.	swagger-blocks gem
+
+	You built a REST API server using Rails and you need to document and test the endpoints.
+
+5.	Sidekiq gem
+	
+	Sidekiq is a background processing library for Ruby
+
+
+6. Sinatra gem
+
+	Sinatra is similar to Ruby on Rails in that they are both web frameworks. It's pretty different from Rails in that it's much lighter (less overhead), and you 		have more fine-grained control over your webapp. 
+
+Doubt:-
+
+Which web framework we are following? Rails or Sinatra::Base. If Sinatra then why we are not following Sinatra syntax
+
+7.	Paranoia gem
+
+	paranoia is a gem that handles the soft deletion for your ActiveRecord models
+	Soft deleting an item from a database means that the row or entity is marked as deleted but not physically removed from the database.
+
+8.	ImageMagick
+
+	Resize & compressing these images without losing quality.
+
+9.	Fake gem
+
+	
+	Faker::Name.name  # => "Gwendolyn Wehner"
+	Faker::Internet.email # => "ava.conn@emmerich.info"
+	Faker::Internet.free_email # => "angelina.labadie@hotmail.com"
+	Faker::Number.number(13) # => "1234567891023"
+	Faker::Internet.user_name # => "mitchel.heaney"
+
+      	person.name    = Faker::Name.name
+      	person.company = Faker::Company.name
+      	person.email   = Faker::Internet.email
+      	person.phone   = Faker::PhoneNumber.phone_number
+      	person.street  = Faker::Address.street_address
+      	person.city    = Faker::Address.city
+      	person.state   = Faker::Address.us_state_abbr
+      	person.zip     = Faker::Address.zip_code
+
+10.	Factory Girl
+
+	Linting is the process of analyzing code to detect potential errors, and factory linting is the process of detecting potential errors by validating attributes 		set in the factory.
+	
+	https://semaphoreci.com/community/tutorials/working-effectively-with-data-factories-using-factorygirl
+
+	FactoryGirl provides an alternative to fixtures that was designed to make it very easy to build objects as needed in specs with exactly the attributes needed.
+
+11.	Rubocop
+
+	Rubocop is a tool that helps you to check and enforce your style guide for your Ruby code.
+
+	https://buildtoship.com/integrate-rubocop-in-your-workflow/
+
+12.	rails-param	
+	
+	This library is handy if you want to validate a few numbers of parameters directly inside your controller.
+
+	https://github.com/nicolasblanco/rails_param
+
+13.	Sprockets
+
+	When it comes to deploying your application, Sprockets then uses these directives to turn your multiple JavaScript files into a single file for better 			performance.
+
+	http://stackoverflow.com/questions/31828795/what-sprockets-mean-in-rails
+
+14.	Letter Opener gem
+
+	The gem we are using here makes it really easy to preview your application emails the minute they are sent in development mode.
+	
+	https://www.sitepoint.com/preview-your-rails-mail-with-letter-opener/
+
+
+15.	Listen gem
+
+	The Listen gem listens to file modifications and notifies you about the changes.
+
+16.	Database Cleaner gem
+
+
+
+
+
+
+

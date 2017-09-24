@@ -1,0 +1,448 @@
+1.	Angular JS:-
+
+				Angular JS is a javascript framework. It is a library written javascript.
+				Note:-
+					AngularJS starts automatically when the web page has loaded.
+
+2.	Angular Js directives
+
+				Angular directives are HTML attributes with an ng prefix.
+
+3.	ng-app directive
+
+				ng-app directive defines an AngularJS application.
+
+				Ex:-	
+					<!DOCTYPE html>
+					<html>
+					<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+					<body>
+
+					<div ng-app="">
+					  <p>Name: <input type="text" ng-model="name"></p>
+					  <p ng-bind="name"></p>
+					</div>
+
+					</body>
+					</html>										
+				The ng-app directive tells AngularJS that the <div> element is the "owner" of an AngularJS application.
+				
+				App can contain several modules (like Transaction, Report, etc.). Each module represent a logical entity within the app. Furthermore, each modules have several Controllers.  A module can contain one or more controllers and views.
+
+
+4.	ng-model directive
+
+				ng-model directive binds the value of HTML controls(input, select, textarea) to application data(variable ex:- ng-model="application_variable").
+
+5.	ng-bind directive
+
+				ng-bind directive binds the application data to the HTML view
+
+6. Difference between ng-app vs. data-ng-app and x-ng-app?
+
+			You can use data-ng-, instead of ng-, if you want to make your page HTML valid.
+			Link:- http://www.code-sample.com/2015/02/difference-between-ng-app-vs-data-ng.html
+
+			Today, I am going to share the difference between the some powerful  angularjs prefix like ng-app vs. data-ng-app vs. x-ng-app.
+
+			This powerful  prefix are used to decide when we need to use data.* , x.* and ng.*.
+
+			This is basic concept and use to validate the HTML template without using the data.* and x.* not possible to validate HTML template.
+
+			That means you can say that when we need to validate HTML Template that time we are using data.* or x.* otherwise we are using simple ng.*.
+
+			One other things on that:  Some time throw error on a property like ng-app but don't throw an error with data-* or x.* like data-ng-app or x-ng-app.
+
+			For the conclusion we can say the only difference regarding HTML 5 validation and the best practice is used to data-ng-app or x-ng-app not ng-app.
+
+			KnockoutJs also uses data-* attributes.	
+					
+				//The normalization process of elements or attributes as given below.
+
+
+				The prefix x- and data- from the front of the element or attributes.  
+
+				Its convert the( :, -, or _-) delimited name to camelCase. The equivalent examples of elements/attributes that match ngApp.
+
+
+				Based on above statement below all are valid directives.
+
+
+				1. ng-app
+
+				2. ng:app
+
+				3. ng_app
+
+				4. data-ng-app
+
+				5. x-ng-app					
+
+7.	HTML Validator
+
+		Link:- http://whatis.techtarget.com/definition/HTML-validator
+
+		An HTML validator is a quality assurance program used to check Hypertext Markup Language ( HTML ) markup elements for syntax errors. A validator can be a useful tool for an HTML user who receives data electronically from a variety of input sources. Syntax errors, such as open tags, extra spaces, or forgotten quotation marks, can cause a Web page to look drastically different than the creator intended, or render correctly in one browser , but not in another.		
+
+8.	Expression
+
+		AngularJS expression bind angularjs data to HTML the same way as the ng-bind directive
+		AngularJS expression written inside the double braces(ex:- {{expression}}	)
+
+9.	Module 
+
+				A module is a collection of services, directives, controllers, filters, and configuration information. angular.module is used to configure the $injector.
+
+				var app = angular.module('myApp', []);
+
+				The first parameter of angular.module defines the name of the module. The second parameter is an array that declares the module dependencies that our module uses. Our app currently doesn't depend on any other modules.
+
+				The module is a container for the application controllers.
+
+				Controllers always belong to a module.				
+
+10.	Controller
+
+				Controllers will have your core business logic. The primary purpose of controller in Angular.js is to take the data from the View, process the data accordingly and then send that data across to the view which is displayed to the end user.
+
+				It will use the data model, carry out the required processing and then pass the output to the view which in turn is displayed to the end user. 
+
+				The role of controllers in Angular is to expose data to our view via $scope, and to add functions to $scope that contain business logic to enhance view behavior. Presentation logic should remain within views and directives.
+
+				angular.module('app', []);
+
+				angular.module('app').controller('MainCtrl', function (){
+
+				});								
+
+				We register a controller with our angular module using the controller function provided by modules. Then, the first parameter is a string that specifies the controller name, and the second parameter is the function that represents our controller. In order to pass data to our view, we'll need to inject $scope and add some data to it.
+
+11.	Directive
+
+				A directive in AngularJS is a reusable component. Directives in AngularJS encapsulate all the behavioral properties and 
+				functionalities of an element in a semantic way, thereby keeping all of the functionality grouped together. This helps to keep track of changes of one HTML section in one place rather than tracking the changes on a global level in a script.								
+				A directive is a JavaScript factory function defined inside an AngularJS module that holds a set of instructions for the HTML compiler for defining a specified behavior of a DOM element.
+
+				var myApp = angular.module(‘myApp’, []);
+
+				myApp.directive(‘myDirective’, function() {
+				    return {
+				        restrict: ‘E’,
+				template: ‘<h1>I made a directive!</h1>’
+				    };
+				});
+
+
+12.	ng-init directive
+
+				The ng-init directive defines initial values for an AngularJS application.
+
+				Normally, you will not use ng-init. You will use a controller or module instead.
+
+				<div ng-app="" ng-init="myText='Hello World!'">	
+
+13.	Angular Data Binding/ Two Way Binding
+			
+			Data Binding:-
+				Data binding in AngularJS is the synchronization between the model and the view.
+
+			Two-way Binding:-
+				Data binding in AngularJS is the synchronization between the model and the view.
+
+				When data in the model changes, the view reflects the change, and when data in the view changes, the model is updated as well. This happens immediately and automatically, which makes sure that the model and the view is updated at all times.			
+
+14.	Angular Scope
+
+			Angular Scope Variable:-
+				The scope is the binding part between the HTML (view) and the JavaScript (controller).
+
+				The scope is an object with the available properties and methods.
+
+				The scope is available for both the view and the controller.			 
+
+
+			Angular Root Scope Variable:-		
+				All applications have a $rootScope which is the scope created on the HTML element that contains the ng-app directive.
+
+				The rootScope is available in the entire application.
+
+				If a variable has the same name in both the current scope and in the rootScope, the application use the one in the current scope.
+
+					Example
+					A variable named "color" exists in both the controller's scope and in the rootScope:
+
+						<!DOCTYPE html>
+						<html>
+						<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+						<body ng-app="myApp">
+
+						<p>The rootScope's favorite color:</p>
+						<h1>{{color}}</h1>
+
+						<div ng-controller="myCtrl">
+
+						<p>The scope of the controller's favorite color:</p>
+						<h1>{{color}}</h1>
+
+						</div>
+
+						<p>The rootScope's favorite color is still:</p>
+						<h1>{{color}}</h1>
+
+						<script>
+						var app = angular.module('myApp', []);
+						app.run(function($rootScope) {
+						    $rootScope.color = 'blue';
+						});
+						app.controller('myCtrl', function($scope) {
+						    $scope.color = "red";
+						});
+						</script>
+
+						<p>Notice that controller's color variable does not overwrite the rootScope's color value.</p>
+
+						</body>
+						</html>
+
+						Output:-
+
+							The rootScope's favorite color:
+
+							blue
+
+							The scope of the controller's favorite color:
+
+							red
+
+							The rootScope's favorite color is still:
+
+							blue
+
+							Notice that controller's color variable does not overwrite the rootScope's color value.
+
+15.	MVC in angular JS
+
+		View, which is the HTML.
+		Model, which is the data available for the current view.
+		Controller, which is the JavaScript function that makes/changes/removes/controls the data.
+
+16.	Filter
+
+		Filters can be added in AngularJS to format data.
+
+		AngularJS Filters
+		AngularJS provides filters to transform data:
+
+		currency Format a number to a currency format.
+		date Format a date to a specified format.
+		filter Select a subset of items from an array.
+		json Format an object to a JSON string.
+		limitTo Limits an array/string, into a specified number of elements/characters.
+		lowercase Format a string to lower case.
+		number Format a number to a string.
+		orderBy Orders an array by an expression.
+		uppercase Format a string to upper case.
+
+17. Service
+
+		Service is a function, or object, that is available for, and limited to, your AngularJS application.
+
+		AngularJS has about 30 built-in services.
+
+		Built In Services:-
+
+			$location:-
+				$location service has methods which return information about the location of the current web page.
+
+					<!DOCTYPE html>
+					<html>
+					<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+					<body>
+
+					<div ng-app="myApp" ng-controller="myCtrl">
+					<p>The url of this page is:</p>
+					<h3>{{myUrl}}</h3>
+					</div>
+
+					<p>This example uses the built-in $location service to get the absolute url of the page.</p>
+
+					<script>
+					var app = angular.module('myApp', []);
+					app.controller('myCtrl', function($scope, $location) {
+					    $scope.myUrl = $location.absUrl();
+					});
+					</script>
+
+					</body>
+					</html>				
+			
+			$http:-
+				The service makes a request to the server, and lets your application handle the response.
+
+					var app = angular.module('myApp', []);
+					app.controller('myCtrl', function($scope, $http) {
+					    $http.get("welcome.htm").then(function (response) {
+					        $scope.myWelcome = response.data;
+					    });
+					});					
+			
+			$timeout:-
+				The $timeout service runs a function after a specified number of milliseconds.			
+					
+					var app = angular.module('myApp', []);
+					app.controller('myCtrl', function($scope, $timeout) {
+					  $scope.myHeader = "Hello World!";
+					  $timeout(function () {
+					      $scope.myHeader = "How are you today?";
+					  }, 2000);
+					});
+
+			$interval:-
+				The $interval service runs a function every specified millisecond.
+					
+					var app = angular.module('myApp', []);
+					app.controller('myCtrl', function($scope, $interval) {
+					  $scope.theTime = new Date().toLocaleTimeString();
+					  $interval(function () {
+					      $scope.theTime = new Date().toLocaleTimeString();
+					  }, 1000);
+					});				
+
+			Custom Service:-
+
+				var app = angular.module('myApp', []);
+
+				app.service('hexafy', function() {
+				    this.myFunc = function (x) {
+				        return x.toString(16);
+				    }
+				});
+				app.controller('myCtrl', function($scope, hexafy) {
+				  $scope.hex = hexafy.myFunc(255);
+				});				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			 Comment directives were commonly used in places where the DOM API limits the ability to create directives that spanned multiple elements (e.g. inside <table> elements). 
+ 
+ ng-repeat start and ng-repeat-end
+
+
+Karthikeyan Interview Questions:-
+
+HTML Local Storage Objects
+
+    HTML local storage provides two objects for storing data on the client:
+
+    window.localStorage - stores data with no expiration date
+    window.sessionStorage - stores data for one session (data is lost when the browser tab is closed)
+
+
+    The syntax for removing the "lastname" localStorage item is as follows:
+    localStorage.removeItem("lastname");
+
+    LocalStorage:-
+
+    <script>
+    // Check browser support
+    if (typeof(Storage) !== "undefined") {
+        // Store
+        localStorage.setItem("lastname", "Smith");
+        // Retrieve
+        document.getElementById("result").innerHTML = localStorage.getItem("lastname");
+    } else {
+        document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+    }
+    </script>
+
+    SessionStorage:-
+
+    <script>
+    function clickCounter() {
+        if(typeof(Storage) !== "undefined") {
+            if (sessionStorage.clickcount) {
+                sessionStorage.clickcount = Number(sessionStorage.clickcount)+1;
+            } else {
+                sessionStorage.clickcount = 1;
+            }
+            document.getElementById("result").innerHTML = "You have clicked the button " + sessionStorage.clickcount + " time(s) in this session.";
+        } else {
+            document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
+        }
+    }
+</script>
+
+
+Pre-Processing CSS?
+
+    CSS frameworks:-
+
+    1.  SASS
+    2.  LESS
+    3.  STYLUS
+
+
+    CSS is primitive and incomplete. Building a function, reusing a definition or inheritance are hard to achieve. For bigger projects, or complex systems, maintenance is a very big problem. 
+
+    Pre-processors, with their advanced features, helped to achieve writing reusable, maintainable and extensible codes in CSS. By using a pre-processor, you can easily increase your productivity, and decrease the amount of code you are writing in a project.
+
+    Link:-
+    https://htmlmag.com/article/an-introduction-to-css-preprocessors-sass-less-stylus
+
+    Preprocessor additional features:-
+
+    Variables
+    Variables were all time wanted feature for CSS.
+
+    Nesting
+    CSS lacks visual hierarchy while working with child selectors.
+
+    Mixins
+    Mixins are set of definitions that compiles according to some parameters or static rules. 
+
+    Extends(Inheritance)
+    Extends are useful for sharing a generic definition with selectors rather than copying it in.
+
+    Color Operations
+
+    If/Else Statements
+
+    Loops
+
+    Math
+
+    Imports 
+    Importing the external library
+
+What is $scope and  and $rootScope
+
+    $scope:-
+
+    A $scope is a JavaScript object which is used for communication between controller and view. Basically, $scope binds a view (DOM element) to the viewmodel and functions defined in a controller.
+
+    $rootScope:-
+
+    The $rootScope is the top-most scope. An app can have only one $rootScope which will be shared among all the components of an app. Hence it acts like a global variable. All other $scopes are children of the $rootScope.
+
+
+What is template and templateUrl
+
+    template: "<ul kendo-menu k-orientation=\"'vertical'\" k-direction=\"'right'\"></ul>",
+
+    templateUrl: 'menu.html'
+
+    

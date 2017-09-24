@@ -1,0 +1,3578 @@
+Model, View, Controller and Rails App Structure - Text references
+Section 3, Lecture 45
+To create a new directory called rails_projects:
+
+mkdir rails_projects
+
+To start a new rails application called test_app:
+
+rails new test_app
+
+MVC - Model, View, Controller
+
+General flow of Rails application:
+
+-> Request made at browser
+
+-> Request received at router of rails application
+
+-> Request routed to appropriate controller
+
+-> Controller either renders a view template or communicates with model
+
+-> Model communicates with database
+
+-> Model sends back information to controller
+
+-> Controller renders view
+
+
+Solution to Homework Assignment
+Section 3, Lecture 48
+
+Step 1: Ensure you are in the code/rails_projects directory and not in an existing rails application directory like code/rails_projects/test_app
+
+Step 2: Create a new rails application using the command ->
+
+rails new alpha-blog
+
+Step 3: Change directory into the new application using ->
+
+cd alpha-blog
+
+Step 4: Run the rails server using the command ->
+
+rails s -b 0.0.0.0
+
+Step 5: Preview the application and ensure the Rails welcome page shows up by clicking on preview and then Port 3000 (Default) on the top menu of your nitrous IDE
+
+Step 6: Append a /pages/home to the URL and you'll receive a routing error
+
+Step 7: Go to config/routes.rb file and add the following two routes ->
+
+get 'pages/home', to: 'pages#home'
+
+get 'pages/about', to: 'pages#about'
+
+Step 8: Now if you reload the page after saving the routes file you'll receive uninitialized constant pages controller error
+
+Step 9: Under app/controllers create a pages_controller.rb file by right clicking on controllers folder and selecting the 'New File' option
+
+Step 10: Fill in the pages_controller.rb file with the following code:
+
+class PagesController < ApplicationController
+
+def home
+
+end
+
+def about
+
+end
+
+end
+
+Step 11: Now if you reload any of the pages you'll get a missing template error, so create a folder under views called pages (right click on the views folder and select 'New Folder')
+
+Step 12: Under pages folder, create two files named home.html.erb and about.html.erb
+
+Step 13: Fill in these two files with HTML code
+
+Step 14: To upload an image to your app that you want to reference in your code, go to app/assets/images and right click on images, then select the upload files to images option. Select the image you want to upload. Once uploaded check the images folder and note the name of your file (for example profileimage.png). Then to show this image in your HTML page and to link it to another page, put in the following code (this is if the file you're referencing is profileimage.png) ->
+
+<%= link_to image_tag('profileimage.png'), 'www.mashrurhossain.com' %>
+
+The image tag is for the image, and the link_to turns the image to a link and then you provide the link you want it to go to after the comma
+
+If you simply want to display an image without a link, put in the following code ->
+
+<%= image_tag 'profileimage.png' %>
+
+Step 15: Now if you go to either the pages/home or pages/about link (appended to your nitrous preview page URL) you will get the home and/or about pages
+
+Step 16: Enter in the path to the about page in the home.html.erb and the homepage in the about.html.erb pages as below ->
+
+In the home.html.erb page
+
+<%= link_to 'About', pages_about_path %>
+
+In the about.html.erb page
+
+<%= link_to 'Home', pages_home_path %>
+
+Ensure you have the appropriate links by checking with rake routes
+
+Step 17: Click the links in the refreshed browser pages to ensure they work
+
+Good luck!
+
+
+
+Root Route, Git and Version Control - Text directions and references
+Section 3, Lecture 50
+To set root route to pages controller home:
+
+Navigate to config/routes.rb file and enter in the following code ->
+
+root 'pages#home'
+
+The reference to the root path within the application code would be root_path
+
+Git references:
+
+git-scm.com
+
+git-scm.com/book/en/v2
+
+gitref.org
+
+First time (required only once to configure git for your environment):
+
+git config --global user.name "Your name"
+
+git config --global user.email "Your email"
+
+replace Your name and Your email above with your actual name and email address which you want shown on repo
+
+To display git config settings:
+
+git config --list
+
+Some useful git commands:
+
+To initialize a git repository for your application (do this from within the application directory) ->
+
+git init
+
+To add/track all files ->
+
+git add -A
+
+To commit changes/updates/additions to repository ->
+
+git commit -m "A useful message to help remember details of commit"
+
+To check current state of file updates with already committed code in repo ->
+
+git status
+
+To reject latest changes ->
+
+git checkout -f
+
+Site to create free online code repositories:
+
+github.com
+
+bitbucket.org
+
+
+Setup Github Repository - Text directions and references
+Section 3, Lecture 52
+To display your public SSH key:
+
+cat ~/.ssh/id_rsa.pub
+
+When creating github repo for application ensure you click the SSH button then push existing repo:
+
+git remote add origin git@github.com:yourgithubaccountname/alpha-blog.git
+
+git push -u origin master # Remember you only need to use this command the first time
+
+To view remotes setup in your environment (from your app directory):
+
+git remote -v
+
+For future pushes to repository:
+
+git push
+
+To deploy app to production, we'll use heroku in this course, link to heroku:
+
+www.heroku.com
+
+
+
+Production Deploy - Text directions, references and code
+Section 3, Lecture 54
+Prepartion for heroku deploy:
+
+- Remove sqlite3 gem from top of application to within group :development, :test do block
+
+- Create a group production ->
+
+group :production do
+
+gem 'pg'
+
+gem 'rails_12factor'
+
+end
+
+- Save Gemfile
+
+- Run bundle install --without production to update Gemfile.lock file
+
+- Commit your changes to git repo ->
+
+git add -A
+
+git commit -m "Make app production ready"
+
+Command to install heroku toolbelt to your nitrous environment:
+
+wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+
+Check heroku:
+
+heroku -v
+
+heroku version
+
+heroku # for list of common heroku commands
+
+From your app directory:
+
+To login to your heroku account from your nitrous env ->
+
+heroku login
+
+To add your SSH key to your heroku account so you don't have to use username and password everytime ->
+
+heroku keys:add
+
+To create a new production version of your app hosted in heroku ->
+
+heroku create
+
+To push your application code to heroku (deploy your app) ->
+
+git push heroku master
+
+Ensure you have committed all your local changes to your git repo prior to pushing to heroku by checking git status
+
+To change the name of your application ->
+
+heroku rename newnameofyourapp
+
+replace newnameofyourapp above with the name you'd like to give your app
+
+Your app will then be accessible from the following browser URL ->
+
+newnameofyourapp.herokuapp.com
+
+
+CRUD and Scaffold - Text directions, references and code
+Section 3, Lecture 56
+Query language to communicate with database: SQL (Structured Query Language)
+
+CRUD actions:
+
+C - Create
+
+R - Read
+
+U - Update
+
+D - Delete
+
+Scaffold generator command to create Article model, articles controller, views for articles and migration file to create articles table:
+
+rails generate scaffold Article title:string description:text
+
+Command to see routes present for your app:
+
+rake routes
+
+The line resources :articles in the config/routes.rb file provides the following routes:
+
+- index of articles (listing)
+
+- new article
+
+- create article
+
+- edit article
+
+- update article (put and patch)
+
+- show article
+
+- delete article
+
+From UI perspective ->
+
+- index lists all the articles in the db of the app
+
+- new article deals with the form to enter in new article details
+
+- create handles the submission of the items in the new article form
+
+- edit article deals with the form to enter in edit details for an existing article
+
+- update article deals with the submission of the edited details
+
+- show article displays an individual article based on selection
+
+- delete article deletes an article from the db
+
+Intro to Models, Migrations and Rails Console - Text directions and references
+Section 4, Lecture 59
+Model name: Article, class: Article -> Capitalized A and singular
+
+File name: article.rb -> singular and all lowercase
+
+Controller file name: articles_controller.rb, class: ArticlesController -> camel case class name, snake case file name both plural
+
+Views folder: articles
+
+Table name: articles -> plural of model
+
+Model name: User, class: User -> Capitalized U and singular
+
+File name: user.rb -> singular and all lowercase
+
+Controller file name: users_controller.rb, class: UsersController -> camel case class name, snake case file name both plural
+
+Views folder: users
+
+Table name: users -> plural of model
+
+To generate a migration to create a table (in this example articles):
+
+rails generate migration create_articles
+
+To add attributes for the table in the migration file, add the following inside create_table block:
+
+t.string :title
+
+t.text :description
+
+t.timestamps
+
+To run the migration file and create the articles table:
+
+rake db:migrate
+
+OR
+
+bundle exec rake db:migrate
+
+To rollback a migration (undo the last migration):
+
+rake db:rollback
+
+To add a column (example: created_at column) to the articles table:
+
+rails generate migration add_created_at_to_articles
+
+Then within the def change method in the migration file:
+
+add_column :articles, :created_at, :datetime
+
+To add a different column (example: name) to a users table:
+
+rails generate migration add_name_to_users
+
+Then within the def change method in the migration file:
+
+add_column :users, :name, :string
+
+In the above two adding column methods, the first argument is the name of the table, second is the attribute name and third is the type
+
+To create a model file for Article:
+
+- In the app/models folder create a file called article.rb
+
+- Fill it in with the following ->
+
+class Article < ActiveRecord::Base
+
+end
+
+To start the rails console:
+
+rails console
+
+To test connection to the articles table:
+
+Article.all # classname.all will list all the articles in the articles table
+
+Then simply type in Article (classname) to view the attributes
+
+To create a new article with attributes title and description:
+
+article = Article.new(title: "This is a test title", description: "This is a test description")
+
+article.save
+
+OR
+
+article = Article.new
+
+article.title = "This is a test title"
+
+article.description = "This is a test description"
+
+article.save
+
+Another method to do the same:
+
+article = Article.create(title: "This is a test title", description: "This is a test description") # This will hit the table right away without needing the article.save line
+
+
+To find an article with id 2 and edit it's title:
+
+article = Article.find(2) # Here assumption is article with id of 2 was being looked for
+
+article.title = "This is an edited title"
+
+article.save
+
+To delete an article, example with id 5:
+
+article = Article.find(5)
+
+article.destroy
+
+To add validations presence and length validations to article model for title and description:
+
+class Article < ActiveRecord::Base
+
+validates :title, presence: true, length: {minimum: 3, maximum: 50}
+
+validates :description, presence: true, length: {minimum: 10, maximum: 300}
+
+end
+
+To find errors in article object while saving (if it's rolled back):
+
+article.errors.any?
+
+article.errors.full_messages
+
+
+Create New Articles from UI - Text directions and code
+Section 4, Lecture 63
+In the config/routes.rb file add the following line to add all the routes for articles:
+
+resources :articles
+
+This will add the following routes:
+
+routes path HTTP verb link controller#action
+
+articles index articles GET /articles articles#index
+
+new article new_article GET /articles/new articles#new
+
+create article POST /articles articles#create
+
+edit article edit_article GET /articles/:id articles#edit
+
+update article PATCH /articles/:id articles#update
+
+show article article GET /articles/:id articles#show
+
+delete article DELETE /articles/:id articles#destroy
+
+To create articles controller with a new action, under app/controllers create a file named articles_controller.rb (snake case):
+
+class ArticlesController < ApplicationController
+
+def new
+
+@article = Article.new
+
+end
+
+end
+
+To create a view, under app/views create a folder named articles and within it create a file named new.html.erb then fill in the following:
+
+<h1>Create an article</h1>
+
+<%= form_for @article do |f| %>
+
+<p>
+
+<%= f.label :title %><br/>
+
+<%= f.text_field :title %>
+
+</p>
+
+<p>
+
+<%= f.label :description %><br/>
+
+<%= f.text_area :description %>
+
+</p>
+
+<p>
+
+<%= f.submit %>
+
+</p>
+
+<% end %>
+
+Create action and private article_params method for string parameters in the articles controller (Note: This is not complete):
+
+def create
+
+@article = Article.new(article_params)
+
+@article.save
+
+redirect_to article_path(@article)
+
+end
+
+private
+
+def article_params
+
+params.require(:article).permit(:title, :description)
+
+end
+
+
+render plain: params[:article].inspect
+
+
+Complete New and Show Actions - Text directions and code
+Section 4, Lecture 65
+Completed create action in articles controller:
+
+def create
+
+@article = Article.new(article_params)
+
+if @article.save
+
+flash[:notice] = "Article was successfully created"
+
+redirect_to article_path(@article)
+
+else
+
+render 'new'
+
+end
+
+end
+
+Flash message code added to application.html.erb under app/views/layouts folder (right under <body> and above <%= yield %>:
+
+<% flash.each do |name, msg| %>
+
+<ul>
+
+<li><%= msg %></li>
+
+</ul>
+
+<% end %>
+
+Code added to display errors in the new.html.erb template under app/views/articles folder:
+
+<% if @article.errors.any? %>
+
+<h2>The following errors prevented the article from getting created</h2>
+
+<ul>
+
+<% @article.errors.full_messages.each do |msg| %>
+
+<li><%= msg %></li>
+
+<% end %>
+
+</ul>
+
+<% end %>
+
+To create the show action, add the following show method to articles_controller.rb file:
+
+def show
+
+@article = Article.find(params[:id])
+
+end
+
+To create the show view, add a show.html.erb file under the app/views/articles folder and fill in the code:
+
+<h1>Showing selected article</h1>
+
+<p>
+
+Title: <%= @article.title %>
+
+</p>
+
+<p>
+
+Description: <%= @article.description %>
+
+</p>
+
+Edit Articles - Text directions and code
+Section 4, Lecture 67
+Route for editing articles takes the form ->
+
+/articles/:id/edit
+
+Edit action in the articles controller:
+
+def edit
+
+@article = Article.find(params[:id])
+
+end
+
+Update action in the articles controller:
+
+def update
+
+@article = Article.find(params[:id])
+
+if @article.update(article_params)
+
+flash[:notice] = "Article was successfully updated"
+
+redirect_to article_path(@article)
+
+else
+
+render 'edit'
+
+end
+
+end
+
+To create edit template, create a file named edit.html.erb under the app/views/articles folder and fill in the following code:
+
+<h1>Edit existing article</h1>
+
+<% if @article.errors.any? %>
+
+<h2>The following errors prevented the article from getting created</h2>
+
+<ul>
+
+<% @article.errors.full_messages.each do |msg| %>
+
+<li><%= msg %></li>
+
+<% end %>
+
+</ul>
+
+<% end %>
+
+<%= form_for @article do |f| %>
+
+<p>
+
+<%= f.label :title %><br/>
+
+<%= f.text_field :title %>
+
+</p>
+
+<p>
+
+<%= f.label :description %><br/>
+
+<%= f.text_area :description %>
+
+</p>
+
+<p>
+
+<%= f.submit %>
+
+</p>
+
+<% end %>
+
+
+List Articles and Layout Links - Text directions and code
+Section 4, Lecture 69
+To create listings index first add the index action to acticles controller:
+
+def index
+
+@articles = Article.all
+
+end
+
+Create the view file index.html.erb under app/views/articles folder:
+
+<h1>Listing all articles</h1>
+
+<p>
+
+<%= link_to "Create new article", new_article_path %>
+
+</p>
+
+<table>
+
+<tr>
+
+<th>Title</th>
+
+<th>Description</th>
+
+</tr>
+
+<% @articles.each do |article| %>
+
+<tr>
+
+<td><%= article.title %></td>
+
+<td><%= article.description %></td>
+
+<td><%= link_to 'Edit', edit_article_path(article) %></td>
+
+<td><%= link_to 'Show', article_path(article) %></td>
+
+</tr>
+
+<% end %>
+
+</table>
+
+Then update the views with links ->
+
+show.html.erb:
+
+<h1>Showing selected article</h1>
+
+<p>
+
+Title: <%= @article.title %>
+
+</p>
+
+<p>
+
+Description: <%= @article.description %>
+
+</p>
+
+<%= link_to "Edit this article", edit_article_path(@article) %> |
+
+<%= link_to "Back to articles listing", articles_path %>
+
+Add the back to articles listing path to the bottom of both new.html.erb and edit.html.erb pages:
+
+<%= link_to "Back to articles listing", articles_path %>
+
+
+Destroy and Partials - Text directions and code
+Section 4, Lecture 71
+Add this link to the homepage (root route) so you can access the blog from the homepage:
+
+<%= link_to "Alpha Blog", articles_path %>
+
+Under app/views/layouts folder create a _messages.html.erb file (messages partial) and remove the following code from application.html.erb to this file:
+
+<% flash.each do |name, msg| %>
+
+<ul>
+
+<li><%= msg %></li>
+
+</ul>
+
+<% end %>
+
+In place of this code in the application.html.erb add the following code:
+
+<%= render 'layouts/messages' %>
+
+Create a file under app/views/articles folder called _form.html.erb and fill it in with the following code (copied from the new or edit.html.erb page):
+
+<% if @article.errors.any? %>
+
+<h2>The following errors prevented the article from getting created</h2>
+
+<ul>
+
+<% @article.errors.full_messages.each do |msg| %>
+
+<li><%= msg %></li>
+
+<% end %>
+
+</ul>
+
+<% end %>
+
+<%= form_for @article do |f| %>
+
+<p>
+
+<%= f.label :title %><br/>
+
+<%= f.text_field :title %>
+
+</p>
+
+<p>
+
+<%= f.label :description %><br/>
+
+<%= f.text_area :description %>
+
+</p>
+
+<p>
+
+<%= f.submit %>
+
+</p>
+
+<% end %>
+
+<%= link_to "Back to articles listing", articles_path %>
+
+Then remove the code above from both new.html.erb and edit.html.erb files and in it's place add the following code:
+
+<%= render 'form' %>
+
+To add the destroy method, first add the following to the articles controller:
+
+def destroy
+
+@article = Article.find(params[:id])
+
+@article.destroy
+
+flash[:notice] = "Article was successfully deleted"
+
+redirect_to articles_path
+
+end
+
+Then in the index.html.erb (listings page) add the following link as one of the <td> items under the show article link:
+
+<td><%= link_to 'Delete', article_path(article), method: :delete, data: {confirm: "Are you sure?"} %></td>
+
+
+
+Deploy and Wrap Section 4 - Text directions, references and code
+Section 4, Lecture 73
+Completed articles controller after adding before_action:
+
+class ArticlesController < ApplicationController
+
+before_action :set_article, only: [:edit, :update, :show, :destroy]
+
+def index
+
+@articles = Article.all
+
+end
+
+def new
+
+@article = Article.new
+
+end
+
+def edit
+
+end
+
+def create
+
+@article = Article.new(article_params)
+
+if @article.save
+
+flash[:notice] = "Article was successfully created"
+
+redirect_to article_path(@article)
+
+else
+
+render 'new'
+
+end
+
+end
+
+def update
+
+if @article.update(article_params)
+
+flash[:notice] = "Article was successfully updated"
+
+redirect_to article_path(@article)
+
+else
+
+render 'edit'
+
+end
+
+end
+
+def show
+
+end
+
+def destroy
+
+@article.destroy
+
+flash[:notice] = "Article was successfully deleted"
+
+redirect_to articles_path
+
+end
+
+private
+
+def set_article
+
+@article = Article.find(params[:id])
+
+end
+
+def article_params
+
+params.require(:article).permit(:title, :description)
+
+end
+
+end
+
+To deploy app to production ->
+
+- Ensure you committed your code to your git repo
+
+- Ensure your gemfile has sqlite3 in group dev and pg and rails_12factor in group production
+
+- Command to deploy to heroku: git push heroku master
+
+- Once deployed run the following to run your migration files in production: heroku run rake db:migrate
+
+Go to your-app-name.herokuapp.com and verify deploy
+
+To learn CSS go to:
+
+w3schools.com/css/default.asp
+
+To learn about bootstrap, go to:
+
+getbootstrap.com
+
+ 
+
+ Install Bootstrap - Text directions, references and code
+Section 5, Lecture 76
+Bootstrap sass gem page:
+
+https://github.com/twbs/bootstrap-sass
+
+Add the following gem to your gemfile above the gem 'sass-rails':
+
+gem 'bootstrap-sass', '~> 3.3.5'
+
+To install the gem to your app run:
+
+bundle install --without production
+
+Create a file called custom.css.scss under app/assets/stylesheets folder
+
+Add the following lines to the file:
+
+@import "bootstrap-sprockets";
+
+@import "bootstrap";
+
+Add the following line to your application.js file in the app/assets/javascripts folder under the line that says //= require jquery_ujs:
+
+//= require bootstrap-sprockets
+
+Make a commit to your git repo
+
+
+Complete Homepage - Text directions and code
+Section 5, Lecture 79
+After completion of the prior video, below is what the application.html.erb looks like:
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>AlphaBlog</title>
+
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+<%= csrf_meta_tags %>
+
+</head>
+
+<body>
+
+<%= render 'layouts/navigation' %>
+
+<%= render 'layouts/messages' %>
+
+<div class="container">
+
+<%= yield %>
+
+</div>
+
+<%= render 'layouts/footer' %>
+
+</body>
+
+</html>
+
+The image to be added as background for the jumbotron should be added in the app/assets/images folder
+
+Below is what the custom.css.scss file looks like:
+
+$navbar-default-bg: black;
+
+@import "bootstrap-sprockets";
+
+@import "bootstrap";
+
+#logo {
+
+float: left;
+
+font-size: 1.7em;
+
+color: #fff;
+
+text-transform: uppercase;
+
+letter-spacing: -1px;
+
+font-weight: bold;
+
+}
+
+#logo:hover {
+
+color: #fff;
+
+text-decoration: none;
+
+}
+
+.center {
+
+text-align: center;
+
+}
+
+.jumbotron {
+
+background-image: asset-url('new_cover_page.png');
+
+background-size: cover;
+
+height: 550px;
+
+}
+
+.jumbotron h1 {
+
+color: #fff;
+
+text-align: center;
+
+margin-bottom: 30px;
+
+letter-spacing: -1px;
+
+font-weight: bold;
+
+}
+
+.btn-xlarge {
+
+font-size: 1.7em;
+
+background-color: black;
+
+}
+
+footer {
+
+margin-top: 45px;
+
+padding-top: 5px;
+
+border-top: 1px solid #eaeaea;
+
+color: #777;
+
+}
+
+footer a:hover {
+
+color: #222;
+
+}
+
+footer small {
+
+float: left;
+
+}
+
+footer ul {
+
+float: right;
+
+list-style: none;
+
+}
+
+footer ul li {
+
+float: left;
+
+margin-left: 15px;
+
+}
+
+Below is what the _navigation.html.erb file looks like:
+
+<nav class="navbar navbar-default">
+
+<div class="container-fluid">
+
+<!-- Brand and toggle get grouped for better mobile display -->
+
+<div class="navbar-header">
+
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+
+<span class="sr-only">Toggle navigation</span>
+
+<span class="icon-bar"></span>
+
+<span class="icon-bar"></span>
+
+<span class="icon-bar"></span>
+
+</button>
+
+<%= link_to "Alpha blog", root_path, class: "navbar-brand", id: "logo" %>
+
+</div>
+
+<!-- Collect the nav links, forms, and other content for toggling -->
+
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+<ul class="nav navbar-nav">
+
+<li><%= link_to "Articles", articles_path %></li>
+
+<li><a href="#">Link</a></li>
+
+<li class="dropdown">
+
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
+
+<ul class="dropdown-menu">
+
+<li><%= link_to "New Article", new_article_path %></li>
+
+<li><a href="#">Another action</a></li>
+
+<li><a href="#">Something else here</a></li>
+
+<li role="separator" class="divider"></li>
+
+<li><a href="#">Separated link</a></li>
+
+<li role="separator" class="divider"></li>
+
+<li><a href="#">One more separated link</a></li>
+
+</ul>
+
+</li>
+
+</ul>
+
+<form class="navbar-form navbar-left" role="search">
+
+<div class="form-group">
+
+<input type="text" class="form-control" placeholder="Search">
+
+</div>
+
+<button type="submit" class="btn btn-default">Submit</button>
+
+</form>
+
+<ul class="nav navbar-nav navbar-right">
+
+<li><a href="#">Link</a></li>
+
+<li class="dropdown">
+
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+
+<ul class="dropdown-menu">
+
+<li><a href="#">Action</a></li>
+
+<li><a href="#">Another action</a></li>
+
+<li><a href="#">Something else here</a></li>
+
+<li role="separator" class="divider"></li>
+
+<li><a href="#">Separated link</a></li>
+
+</ul>
+
+</li>
+
+</ul>
+
+</div><!-- /.navbar-collapse -->
+
+</div><!-- /.container-fluid -->
+
+</nav>
+
+Below is what the _footer.html.erb file looks like:
+
+<div class="container">
+
+<footer class="footer">
+
+<small>
+
+Copyright © <a href="enter in a link here">The Complete Ruby on Rails Developer</a>
+
+by <a href="enter in a link here">Mashrur Hossain</a>
+
+</small>
+
+<nav>
+
+<ul>
+
+<li><%= link_to "About", about_path %></li>
+
+</ul>
+
+</nav>
+
+</footer>
+
+</div>
+
+
+Style Form Template - Text directions and code
+Section 5, Lecture 81
+In the new and edit.html.erb files in the app/views/articles folder add the align center to h1 tags:
+
+<h1 align="center">Edit existing article</h1>
+
+<h1 align="center">Create new article</h1>
+
+Below is the current state of the _form.html.erb partial after styling the form portion:
+
+<% if @article.errors.any? %>
+
+<h2>The following errors prevented the article from getting created</h2>
+
+<ul>
+
+<% @article.errors.full_messages.each do |msg| %>
+
+<li><%= msg %></li>
+
+<% end %>
+
+</ul>
+
+<% end %>
+
+<div class='row'>
+
+<div class='col-xs-12'>
+
+<%= form_for(@article, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+
+<div class="form-group">
+
+<div class="control-label col-sm-2">
+
+<%= f.label :title %>
+
+</div>
+
+<div class="col-sm-8">
+
+<%= f.text_field :title, class: "form-control", placeholder: "Title of article", autofocus: true %>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<div class="control-label col-sm-2">
+
+<%= f.label :description %>
+
+</div>
+
+<div class="col-sm-8">
+
+<%= f.text_area :description, rows: 10, class: "form-control", placeholder: "Body of article" %>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<div class="col-sm-offset-2 col-sm-10">
+
+<%= f.submit class: 'btn btn-primary btn-lg' %>
+
+</div>
+
+</div>
+
+<% end %>
+
+<div class="col-xs-4 col-xs-offset-4">
+
+[ <%= link_to "Cancel request and return to articles listing", articles_path %> ]
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+Style Messages - Text directions and code
+Section 5, Lecture 83
+In your articles_controller.rb file change the flash[:notice] to be flash[:success], there should be 3 such occurances in that file
+
+Update your _messages.html.erb file with the following code:
+
+<div class="row">
+
+<div class="col-xs-10 col-xs-offset-1">
+
+<% flash.each do |name, msg| %>
+
+<div class='alert alert-<%="#{name}" %>'>
+
+<a href="#" class="close" data-dismiss="alert">×</a>
+
+<%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+
+</div>
+
+<% end %>
+
+</div>
+
+</div>
+
+Update your _form.html.erb at the top to remove the error portion and replace it with the following:
+
+<%= render 'shared/errors', obj: @article %>
+
+Create a folder called shared under app/views/ folder. Then within the shared folder file named _errors.html.erb to create the errors partial, then fill it in with the following code:
+
+<% if obj.errors.any? %>
+
+<div class="row">
+
+<div class="col-xs-8 col-xs-offset-2">
+
+<div class="panel panel-danger">
+
+<div class="panel-heading">
+
+<h2 class="panel-title">
+
+<%= pluralize(obj.errors.count, "error") %>
+
+prohibited this article from being saved:
+
+</h2>
+
+<div class="panel-body">
+
+<ul>
+
+<% obj.errors.full_messages.each do |msg| %>
+
+<li><%= msg %></li>
+
+<% end %>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<% end %>
+
+
+
+Style Show View - Text directions and code
+Section 5, Lecture 85
+Articles show page, show.html.erb:
+
+<h2 align="center">Title: <%= @article.title %></h2>
+
+<div class="well col-xs-8 col-xs-offset-2">
+
+<h4 class="center description"><strong>Description:</strong></h4>
+
+<hr>
+
+<%= simple_format(@article.description) %>
+
+<div class="article-actions">
+
+<%= link_to "Edit this article", edit_article_path(@article), class: "btn btn-xs btn-primary" %>
+
+<%= link_to "Delete this article", article_path(@article), method: :delete,
+
+data: { confirm: "Are you sure you want to delete the article?"},
+
+class: "btn btn-xs btn-danger" %>
+
+<%= link_to "View all articles", articles_path, class: "btn btn-xs btn-success" %>
+
+</div>
+
+</div>
+
+Add the following classes to custom.css.scss page:
+
+.article-actions {
+
+border-top: 1px solid #eaeaea;
+
+padding-top: 5px;
+
+}
+
+.description {
+
+margin-top: 0;
+
+}
+
+
+Style List View - Text directions and code
+Section 5, Lecture 87
+Add styling to the index.html.erb page:
+
+<h1 align="center">Listing all articles</h1>
+
+<% @articles.each do |article| %>
+
+<div class="row">
+
+<div class="col-xs-8 col-xs-offset-2">
+
+<div class="well well-lg">
+
+<div class="article-title">
+
+<%= link_to article.title, article_path(article) %>
+
+</div>
+
+<div class="article-body">
+
+<%= truncate(article.description, length: 100) %>
+
+</div>
+
+<div class="article-actions">
+
+<%= link_to "Edit this article", edit_article_path(article), class: "btn btn-xs btn-primary" %>
+
+<%= link_to "Delete this article", article_path(article), method: :delete,
+
+data: { confirm: "Are you sure you want to delete the article?"},
+
+class: "btn btn-xs btn-danger" %>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<% end %>
+
+Add the following code to the custom.css.scss page:
+
+.article-title {
+
+font-weight: bold;
+
+font-size: 1.5em;
+
+}
+
+.article-body {
+
+border-top: 1px solid #eaeaea;
+
+padding-top: 15px;
+
+padding-bottom: 15px;
+
+}
+
+
+
+Deploy to Production - Text directions and references
+Section 5, Lecture 89
+To deploy to heroku:
+
+git status # To ensure you have no uncommitted changes, if you do commit the code
+
+git push heroku master
+
+To run any un-run migration files in heroku:
+
+heroku run rake db:migrate
+
+Don't forget to post the link to your herokuapp link in the discussion area!
+
+Homework assignment to start section 6:
+
+Go to -> http://guides.rubyonrails.org/association_basics.h...
+
+and read about one-to-many (has_many) associations
+
+
+
+Create Users - Text directions and code
+Section 6, Lecture 92
+To create a feature branch:
+
+git checkout -b nameofbranch
+
+To create a feature branch named create-users:
+
+git checkout -b create-users
+
+To view list of branches:
+
+git branch
+
+To move to master branch:
+
+git checkout master
+
+To move to already created feature branch:
+
+git checkout nameofbranch
+
+Important to remember is to always have master branch deployable to production and work on all new features and additions in feature branches
+
+To create a migration to create users table:
+
+rails generate migration create_users
+
+Then within the migration file add in the following within the create_table block to add the username, email and timestamps columns (created_at and updated_at):
+
+t.string :username
+
+t.string :email
+
+t.timestamps
+
+To run the migration file and create the users table:
+
+rake db:migrate
+
+Add a user.rb model file under app/models folder and fill in the following:
+
+class User < ActiveRecord::Base
+
+end
+
+Then start rails console and test out connections:
+
+rails console
+
+User.all
+
+User
+
+user = User.create(username: "test", email: "test@example.com")
+
+user = User.create(username: "test2", email: "test2@example.com")
+
+To grab first user and update their email address:
+
+user = User.find(1)
+
+OR
+
+user = User.first
+
+user.email = "test3@example.com"
+
+user.save
+
+To destroy user with id = 2:
+
+user = User.find(2)
+
+user.destroy
+
+To make a commit of the changes made in the feature branch:
+
+git add -A
+
+git commit -m "create users table and user model"
+
+To merge the changes in the feature branch to the master branch first switch to master branch:
+
+git checkout master
+
+git merge nameofbranch
+
+git push to push code to repository
+
+To delete a feature branch that is no longer needed and has been merged to master already:
+
+git branch -d nameofbranch
+
+To delete a feature branch that is no longer needed but has NOT been merged to master:
+
+git branch -D nameofbranch
+
+
+
+Add User Validations - Text directions and code
+Section 6, Lecture 94
+Validations for User class:
+
+- username must be present and unique
+
+- email must be present and unique
+
+- validate email format using regex
+
+user.rb model file after validations added:
+
+class User < ActiveRecord::Base
+
+validates :username, presence: true,
+
+uniqueness: { case_sensitive: false },
+
+length: { minimum: 3, maximum: 25 }
+
+VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+
+validates :email, presence: true, length: { maximum: 105 },
+
+uniqueness: { case_sensitive: false },
+
+format: { with: VALID_EMAIL_REGEX }
+
+end
+
+
+
+One to Many Association - Text directions and code
+Section 6, Lecture 96
+To generate a migration to add user_id column to articles table:
+
+rails generate migration add_user_id_to_articles
+
+Then within the change method:
+
+add_column :articles, :user_id, :integer
+
+Then run the migration file to effect the change:
+
+rake db:migrate
+
+Add the following line to article.rb model file:
+
+belongs_to :user
+
+Add the following line to user.rb model file:
+
+has_many :articles
+
+Also add the following line to user.rb model file(this has nothing to do with the association):
+
+before_save { self.email = email.downcase }
+
+Ensure you have a couple of users created by using the rails console. Then add in 1 line to grab a user to the create action to temporarily hardcode a user to articles:
+
+def create
+
+@article = Article.new(article_params)
+
+@article.user = User.first
+
+if @article.save
+
+flash[:success] = "Article was successfully created"
+
+redirect_to article_path(@article)
+
+else
+
+render 'new'
+
+end
+
+end
+
+Ensure you get rid of the debugger line if you no londer need it within the create action, you can add that line as you need to your actions if you want to pause execution of a request
+
+You can add in the following line to display the debug(params) to your development environment UI output:
+
+(this will be in the app/views/layouts/application.html.erb file under render footer and above </body>)
+
+<%= debug(params) if Rails.env.development? %>
+
+
+Show User Info in Articles - Text directions and code
+Section 6, Lecture 98
+Add the following code to the index.html.erb file under app/views/articles folder within the div for article-body and under the article.description:
+
+<div class="article-meta-details">
+
+<small>Created by: <%= article.user.username if article.user%>,
+
+<%= time_ago_in_words(article.created_at) %> ago,
+
+last updated: <%= time_ago_in_words(article.updated_at) %> ago</small>
+
+</div>
+
+And then add styling to a new article-meta-details class in the custom.css.scss page under the app/assets/stylesheets folder:
+
+.article-meta-details {
+
+border-top: 1px solid #eaeaea;
+
+margin-top: 15px;
+
+}
+
+
+
+Add Secure Password - Text directions and code
+Section 6, Lecture 100
+To create a migration to add password_digest column to users table:
+
+rails generate migration add_password_digest_to_users
+
+Then pull up the migration file and fill in the column details within the def change block:
+
+add_column :users, :password_digest, :string
+
+Then save the file and run rake db:migrate to make the change to the table
+
+In the model file (user.rb) add the following method:
+
+has_secure_password
+
+In the gemfile add the gem:
+
+gem 'bcrypt', '~> 3.1.7'
+
+Run the following from the command line:
+
+bundle install --without production
+
+Test it out from the rails console by creating a couple of test users and updating password for an existing user
+
+To authenticate and test password for a user, first grab the user:
+
+user = User.last # (or User.find(enter id of user here))
+
+user.authenticate("providecorrectpassword") # This will return the user object
+
+user.authenticate("enterincorrectpassword") # This will return false
+
+ 
+Browse Q&A
+Continue
+
+
+   Show curriculum navigation Go to Dashboard
+
+
+
+
+New User Signup - Text directions and code
+Section 6, Lecture 102
+To add the route for the new form add the following two lines to the routes.rb file:
+
+get 'signup', to: 'users#new'
+
+resources :users, except: [:new]
+
+Create a file under app/controllers folder called users_controller.rb and fill in the following:
+
+class UsersController < ApplicationController
+
+def new
+
+@user = User.new
+
+end
+
+def create
+
+@user = User.new(user_params)
+
+if @user.save
+
+flash[:success] = "Welcome to the alpha blog #{@user.username}"
+
+redirect_to articles_path
+
+else
+
+render 'new'
+
+end
+
+end
+
+private
+
+def user_params
+
+params.require(:user).permit(:username, :email, :password)
+
+end
+
+end
+
+To create a view, first create a folder called users under the app/views directory, then within it create a new file called new.html.erb and fill in the following code:
+
+<h1 align="center">Signup for Alpha Blog</h1>
+
+<%= render 'shared/errors', obj: @user %>
+
+<div class='row'>
+
+<div class='col-xs-12'>
+
+<%= form_for(@user, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+
+<div class="form-group">
+
+<div class="control-label col-sm-2">
+
+<%= f.label :username %>
+
+</div>
+
+<div class="col-sm-8">
+
+<%= f.text_field :username, class: "form-control", placeholder: "Enter username", autofocus: true %>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<div class="control-label col-sm-2">
+
+<%= f.label :email %>
+
+</div>
+
+<div class="col-sm-8">
+
+<%= f.email_field :email, class: "form-control", placeholder: "Enter email" %>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<div class="control-label col-sm-2">
+
+<%= f.label :password %>
+
+</div>
+
+<div class="col-sm-8">
+
+<%= f.password_field :password, class: "form-control", placeholder: "Enter password" %>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<div class="col-sm-offset-2 col-sm-10">
+
+<%= f.submit "Sign up", class: 'btn btn-primary btn-lg' %>
+
+</div>
+
+</div>
+
+<% end %>
+
+<div class="col-xs-4 col-xs-offset-4">
+
+[ <%= link_to "Cancel request and return to articles listing", articles_path %> ]
+
+</div>
+
+</div>
+
+</div>
+
+Now test out signing up a couple of users from the UI (sign up a couple of invalid ones too to ensure the validations are working and displaying correctly)
+
+Then you can test them out from the rails console
+
+
+
+Edit Users - Text directions and code
+Section 6, Lecture 104
+First add the following two actions in the users_controller.rb file:
+
+def edit
+
+@user = User.find(params[:id])
+
+end
+
+def update
+
+@user = User.find(params[:id])
+
+if @user.update(user_params)
+
+flash[:success] = "Your account was updated successfully"
+
+redirect_to articles_path
+
+else
+
+render 'edit'
+
+end
+
+end
+
+Then create a _form.html.erb form partial file under the app/views/users folder and fill it in with the following code:
+
+<%= render 'shared/errors', obj: @user %>
+
+<div class='row'>
+
+<div class='col-xs-12'>
+
+<%= form_for(@user, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+
+<div class="form-group">
+
+<div class="control-label col-sm-2">
+
+<%= f.label :username %>
+
+</div>
+
+<div class="col-sm-8">
+
+<%= f.text_field :username, class: "form-control", placeholder: "Enter username", autofocus: true %>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<div class="control-label col-sm-2">
+
+<%= f.label :email %>
+
+</div>
+
+<div class="col-sm-8">
+
+<%= f.email_field :email, class: "form-control", placeholder: "Enter email" %>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<div class="control-label col-sm-2">
+
+<%= f.label :password %>
+
+</div>
+
+<div class="col-sm-8">
+
+<%= f.password_field :password, class: "form-control", placeholder: "Enter password" %>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<div class="col-sm-offset-2 col-sm-10">
+
+<%= f.submit(@user.new_record? ? "Sign up" : "Update account", class: 'btn btn-primary btn-lg') %>
+
+</div>
+
+</div>
+
+<% end %>
+
+<div class="col-xs-4 col-xs-offset-4">
+
+[ <%= link_to "Cancel request and return to articles listing", articles_path %> ]
+
+</div>
+
+</div>
+
+</div>
+
+The updated new.html.erb file under app/views/users folder should look like below:
+
+<h1 align="center">Sign up for Alpha Blog</h1>
+
+<%= render 'form' %>
+
+Create a new file under app/views/users called edit.html.erb and fill it in with the following code:
+
+<h1 align="center">Edit your account</h1>
+
+<%= render 'form' %>
+
+Test out creating and editing a couple of users from the browser
+
+
+
+
+Show User and Profile Image - Text directions and code
+Section 6, Lecture 106
+To have a profile image associated with an email account you control, add one to the site en.gravatar.com. This will be the globally recognized avatar (gravatar for short) associated with that email address.
+
+In the users_controller.rb file add in the following method:
+
+def show
+
+@user = User.find(params[:id])
+
+end
+
+In the application_helper.rb file under the app/helpers folder, add the following method:
+
+def gravatar_for(user, options = { size: 80})
+
+gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
+
+size = options[:size]
+
+gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}"
+
+image_tag(gravatar_url, alt: user.username, class: "img-circle")
+
+end
+
+Under the app/views/articles folder, create a file called _article.html.erb and fill it in with the following code:
+
+<% obj.each do |article| %>
+
+<div class="row">
+
+<div class="col-xs-8 col-xs-offset-2">
+
+<div class="well well-lg">
+
+<div class="article-title">
+
+<%= link_to article.title, article_path(article) %>
+
+</div>
+
+<div class="article-body">
+
+<%= truncate(article.description, length: 100) %>
+
+<div class="article-meta-details">
+
+<small>Created by: <%= article.user.username if article.user%>,
+
+<%= time_ago_in_words(article.created_at) %> ago,
+
+last updated: <%= time_ago_in_words(article.updated_at) %> ago</small>
+
+</div>
+
+</div>
+
+<div class="article-actions">
+
+<%= link_to "Edit this article", edit_article_path(article), class: "btn btn-xs btn-primary" %>
+
+<%= link_to "Delete this article", article_path(article), method: :delete,
+
+data: { confirm: "Are you sure you want to delete the article?"},
+
+class: "btn btn-xs btn-danger" %>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<% end %>
+
+Change the index.html.erb file under the app/views/articles folder to look like below:
+
+<h1 align="center">Listing all articles</h1>
+
+<%= render 'article', obj: @articles %>
+
+Create a new file named show.html.erb under the app/views/users folder and fill in the following code:
+
+<h1 align="center">Welcome to <%= @user.username %>'s page</h1>
+
+<div class="row">
+
+<div class="col-md-4 col-md-offset-4 center">
+
+<%= gravatar_for @user, size: 150 %>
+
+</div>
+
+</div>
+
+<h4 align="center"><%= @user.username %>'s articles</h4>
+
+<%= render 'articles/article', obj: @user.articles %>
+
+
+
+
+Add Users Index - Text directions and code
+Section 6, Lecture 108
+First in the users_controller.rb file add the following index action:
+
+def index
+
+@users = User.all
+
+end
+
+Create a file named index.html.erb under the app/views/users folder and fill it in with the following:
+
+<h1 align="center">All Alpha Bloggers</h1>
+
+<div align="center">
+
+<% @users.each do |user| %>
+
+<ul class="listing">
+
+<div class="row">
+
+<div class="well col-md-4 col-md-offset-4">
+
+<li><%= link_to gravatar_for(user), user_path(user) %></li>
+
+<li class="article-title">
+
+<%= link_to user.username, user_path(user) %>
+
+</li>
+
+<li><small><%= pluralize(user.articles.count, "article") if user.articles %></small></li>
+
+</div>
+
+</div>
+
+</ul>
+
+<% end %>
+
+</div>
+
+Add the following class to the custom.css.scss file:
+
+.listing {
+
+list-style: none;
+
+padding-left: 0;
+
+}
+
+Update the show.html.erb file under the app/views/articles folder and add the following bit of code:
+
+<% if @article.user %>
+
+<ul class="listing">
+
+<div class="row center">
+
+<div class="col-md-4 col-md-offset-4">
+
+<li>Created by:</li>
+
+<li><%= link_to gravatar_for(@article.user), user_path(@article.user) %></li>
+
+<li class="article-title">
+
+<%= link_to @article.user.username, user_path(@article.user) %>
+
+</li>
+
+<li><small>
+
+<%= pluralize(@article.user.articles.count, "article") if @article.user.articles %>
+
+</small></li>
+
+</div>
+
+</div>
+
+</ul>
+
+<% end %>
+
+After addition of the code above, the show.html.erb file in the app/views/articles folder should look like below:
+
+<h2 align="center">Title: <%= @article.title %></h2>
+
+<div class="well col-xs-8 col-xs-offset-2">
+
+<% if @article.user %>
+
+<ul class="listing">
+
+<div class="row center">
+
+<div class="col-md-4 col-md-offset-4">
+
+<li>Created by:</li>
+
+<li><%= link_to gravatar_for(@article.user), user_path(@article.user) %></li>
+
+<li class="article-title">
+
+<%= link_to @article.user.username, user_path(@article.user) %>
+
+</li>
+
+<li><small>
+
+<%= pluralize(@article.user.articles.count, "article") if @article.user.articles %>
+
+</small></li>
+
+</div>
+
+</div>
+
+</ul>
+
+<% end %>
+
+<h4 class="center description"><strong>Description:</strong></h4>
+
+<hr>
+
+<%= simple_format(@article.description) %>
+
+<div class="article-actions">
+
+<%= link_to "Edit this article", edit_article_path(@article), class: "btn btn-xs btn-primary" %>
+
+<%= link_to "Delete this article", article_path(@article), method: :delete,
+
+data: { confirm: "Are you sure you want to delete the article?"},
+
+class: "btn btn-xs btn-danger" %>
+
+<%= link_to "View all articles", articles_path, class: "btn btn-xs btn-success" %>
+
+</div>
+
+</div>
+
+
+
+
+Add Pagination to Views - Text directions and code
+Section 6, Lecture 110
+Add the two gems required for pagination to the gemfile:
+
+gem 'will_paginate', '3.0.7'
+
+gem 'bootstrap-will_paginate', '0.0.10'
+
+Then from the command line run:
+
+bundle install --without production
+
+This will install the gems
+
+Change the index action in the articles_controller.rb file to look like below:
+
+def index
+
+@articles = Article.paginate(page: params[:page], per_page: 5)
+
+end
+
+Change the index.html.erb page under the app/views/articles folder to look like below:
+
+<h1 align="center">Listing all articles</h1>
+
+<div align="center">
+
+<%= will_paginate %>
+
+</div>
+
+<%= render 'article', obj: @articles %>
+
+<div align="center">
+
+<%= will_paginate %>
+
+</div>
+
+Change the index action in the users_controller.rb file to look like below:
+
+def index
+
+@users = User.paginate(page: params[:page], per_page: 5)
+
+end
+
+Change the show action in the users_controller.rb file to look like below:
+
+def show
+
+@user = User.find(params[:id])
+
+@user_articles = @user.articles.paginate(page: params[:page], per_page: 5)
+
+end
+
+Add the <%= will_paginate %> line to the index.html.erb view under the app/views/users folder and make it look like below:
+
+<h1 align="center">All Alpha Bloggers</h1>
+
+<div align="center">
+
+<%= will_paginate %>
+
+<% @users.each do |user| %>
+
+<ul class="listing">
+
+<div class="row">
+
+<div class="well col-md-4 col-md-offset-4">
+
+<li><%= link_to gravatar_for(user), user_path(user) %></li>
+
+<li class="article-title">
+
+<%= link_to user.username, user_path(user) %>
+
+</li>
+
+<li><small><%= pluralize(user.articles.count, "article") if user.articles %></small></li>
+
+</div>
+
+</div>
+
+</ul>
+
+<% end %>
+
+<%= will_paginate %>
+
+</div>
+
+Change the bottom of the show.html.erb view under the app/views/users folder by adding the pagination and @user_articles code and make it look like below:
+
+<h1 align="center">Welcome to <%= @user.username %>'s page</h1>
+
+<div class="row">
+
+<div class="col-md-4 col-md-offset-4 center">
+
+<%= gravatar_for @user, size: 150 %>
+
+</div>
+
+</div>
+
+<h4 align="center"><%= @user.username %>'s articles</h4>
+
+<div class="center">
+
+<%= will_paginate @user_articles %>
+
+</div>
+
+<%= render 'articles/article', obj: @user_articles %>
+
+<div class="center">
+
+<%= will_paginate @user_articles %>
+
+</div>
+
+
+
+Add Login Form - Text directions and code
+Section 6, Lecture 112
+Add the login/logout routes in the config/routes.rb file:
+
+get 'login', to: 'sessions#new'
+
+post 'login', to: 'sessions#create'
+
+delete 'logout', to: 'sessions#destroy'
+
+Create a sessions_controller.rb file under app/controllers folder and fill it in with the following:
+
+class SessionsController < ApplicationController
+
+def new
+
+end
+
+def create
+
+end
+
+def destroy
+
+end
+
+end
+
+Create a new folder under app/views called sessions, then within the sessions folder create a new file called new.html.erb and fill it in with the following, this will be your log in form:
+
+<h1 align="center">Log in</h1>
+
+<%= form_for(:session, :html => {class: "form-horizontal", role: "form"}, url: login_path) do |f| %>
+
+<div class="form-group">
+
+<div class="control-label col-sm-2">
+
+<%= f.label :email %>
+
+</div>
+
+<div class="col-sm-8">
+
+<%= f.email_field :email, class: "form-control", placeholder: "Enter email", autofocus: true %>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<div class="control-label col-sm-2">
+
+<%= f.label :password %>
+
+</div>
+
+<div class="col-sm-8">
+
+<%= f.password_field :password, class: "form-control", autocomplete: "off" %>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<div class="col-sm-offset-2 col-sm-10">
+
+<%= f.submit "Log in", class: 'btn btn-primary btn-lg' %>
+
+</div>
+
+</div>
+
+<% end %>
+
+<div class="col-xs-4 col-xs-offset-4">
+
+[ <%= link_to "Cancel request and return to articles listing", articles_path %> ]
+
+</div>
+
+
+
+
+Create and Destroy Sessions - Text directions and code
+Section 6, Lecture 114
+Fill in the create and destroy actions in the sessions_controller.rb file with the following:
+
+def create
+
+user = User.find_by(email: params[:session][:email].downcase)
+
+if user && user.authenticate(params[:session][:password])
+
+session[:user_id] = user.id
+
+flash[:success] = "You have successfully logged in"
+
+redirect_to user_path(user)
+
+else
+
+flash.now[:danger] = "There was something wrong with your login information"
+
+render 'new'
+
+end
+
+end
+
+def destroy
+
+session[:user_id] = nil
+
+flash[:success] = "You have logged out"
+
+redirect_to root_path
+
+end
+
+Add a logout link to your navigation partial (_navigation.html.erb) in the app/views/layouts folder by changing one of the default links which are listed as <li> item:
+
+<li><%= link_to 'Log out', logout_path, method: :delete %></li>
+
+
+
+
+Authentication Methods - Text directions and code
+Section 6, Lecture 116
+Add the methods and code to make the application_controller.rb file look like below:
+
+class ApplicationController < ActionController::Base
+
+# Prevent CSRF attacks by raising an exception.
+
+# For APIs, you may want to use :null_session instead.
+
+protect_from_forgery with: :exception
+
+helper_method :current_user, :logged_in?
+
+def current_user
+
+@current_user ||= User.find(session[:user_id]) if session[:user_id]
+
+end
+
+def logged_in?
+
+!!current_user
+
+end
+
+def require_user
+
+if !logged_in?
+
+flash[:danger] = "You must be logged in to perform that action"
+
+redirect_to root_path
+
+end
+
+end
+
+end
+
+Update the navigation partial where you added the logout link in the last lecture (last ul class in the view) and make it look like below:
+
+<ul class="nav navbar-nav navbar-right">
+
+<% if logged_in? %>
+
+<li><%= link_to 'Log out', logout_path, method: :delete %></li>
+
+<li class="dropdown">
+
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Profile<span class="caret"></span></a>
+
+<ul class="dropdown-menu">
+
+<li><%= link_to "Edit your profile", edit_user_path(current_user) %></li>
+
+<li><%= link_to "View your profile", user_path(current_user) %></li>
+
+<li><a href="#">Something else here</a></li>
+
+<li role="separator" class="divider"></li>
+
+<li><a href="#">Separated link</a></li>
+
+</ul>
+
+</li>
+
+<% else %>
+
+<li><%= link_to 'Log in', login_path %></li>
+
+<li><%= link_to 'Sign up', signup_path %></li>
+
+<% end %>
+
+</ul>
+
+Extract the redundancy from the users_controller.rb file by using a before_action :set_user on top to make the file look like below:
+
+class UsersController < ApplicationController
+
+before_action :set_user, only: [:edit, :update, :show]
+
+def index
+
+@users = User.paginate(page: params[:page], per_page: 5)
+
+end
+
+def new
+
+@user = User.new
+
+end
+
+def create
+
+@user = User.new(user_params)
+
+if @user.save
+
+flash[:success] = "Welcome to the alpha blog #{@user.username}"
+
+redirect_to articles_path
+
+else
+
+render 'new'
+
+end
+
+end
+
+def edit
+
+end
+
+def update
+
+if @user.update(user_params)
+
+flash[:success] = "Your account was updated successfully"
+
+redirect_to articles_path
+
+else
+
+render 'edit'
+
+end
+
+end
+
+def show
+
+@user_articles = @user.articles.paginate(page: params[:page], per_page: 5)
+
+end
+
+private
+
+def user_params
+
+params.require(:user).permit(:username, :email, :password)
+
+end
+
+def set_user
+
+@user = User.find(params[:id])
+
+end
+
+end
+
+
+
+
+Restrict Actions from UI - Text directions and code
+Section 6, Lecture 118
+Updated and completed navigation partial:
+
+<nav class="navbar navbar-default">
+
+<div class="container-fluid">
+
+<!-- Brand and toggle get grouped for better mobile display -->
+
+<div class="navbar-header">
+
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+
+<span class="sr-only">Toggle navigation</span>
+
+<span class="icon-bar"></span>
+
+<span class="icon-bar"></span>
+
+<span class="icon-bar"></span>
+
+</button>
+
+<%= link_to "Alpha blog", root_path, class: "navbar-brand", id: "logo" %>
+
+</div>
+
+<!-- Collect the nav links, forms, and other content for toggling -->
+
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+<ul class="nav navbar-nav">
+
+<li><%= link_to "Articles", articles_path %></li>
+
+<li><%= link_to "Users", users_path %></li>
+
+<% if logged_in? %>
+
+<li class="dropdown">
+
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
+
+<ul class="dropdown-menu">
+
+<li><%= link_to "New Article", new_article_path %></li>
+
+<li><a href="#">Another action</a></li>
+
+<li><a href="#">Something else here</a></li>
+
+<li role="separator" class="divider"></li>
+
+<li><a href="#">Separated link</a></li>
+
+<li role="separator" class="divider"></li>
+
+<li><a href="#">One more separated link</a></li>
+
+</ul>
+
+</li>
+
+<% end %>
+
+</ul>
+
+<form class="navbar-form navbar-left" role="search">
+
+<div class="form-group">
+
+<input type="text" class="form-control" placeholder="Search">
+
+</div>
+
+<button type="submit" class="btn btn-default">Submit</button>
+
+</form>
+
+<ul class="nav navbar-nav navbar-right">
+
+<% if logged_in? %>
+
+<li><%= link_to 'Log out', logout_path, method: :delete %></li>
+
+<li class="dropdown">
+
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Profile<span class="caret"></span></a>
+
+<ul class="dropdown-menu">
+
+<li><%= link_to "Edit your profile", edit_user_path(current_user) %></li>
+
+<li><%= link_to "View your profile", user_path(current_user) %></li>
+
+<li><a href="#">Something else here</a></li>
+
+<li role="separator" class="divider"></li>
+
+<li><a href="#">Separated link</a></li>
+
+</ul>
+
+</li>
+
+<% else %>
+
+<li><%= link_to 'Log in', login_path %></li>
+
+<li><%= link_to 'Sign up', signup_path %></li>
+
+<% end %>
+
+</ul>
+
+</div><!-- /.navbar-collapse -->
+
+</div><!-- /.container-fluid -->
+
+</nav>
+
+Updated home.html.erb in the app/views/pages folder:
+
+<div class="center jumbotron">
+
+<h1>ALPHA BLOG</h1>
+
+<%= link_to "Sign up now", signup_path, class: "btn btn-danger btn-lg btn-xlarge" %>
+
+</div>
+
+Updated _article.html.erb partial in the app/views/articles folder with the logged in restrictions:
+
+<% obj.each do |article| %>
+
+<div class="row">
+
+<div class="col-xs-8 col-xs-offset-2">
+
+<div class="well well-lg">
+
+<div class="article-title">
+
+<%= link_to article.title, article_path(article) %>
+
+</div>
+
+<div class="article-body">
+
+<%= truncate(article.description, length: 100) %>
+
+<div class="article-meta-details">
+
+<small>Created by: <%= article.user.username if article.user%>,
+
+<%= time_ago_in_words(article.created_at) %> ago,
+
+last updated: <%= time_ago_in_words(article.updated_at) %> ago</small>
+
+</div>
+
+</div>
+
+<% if logged_in? && current_user == article.user %>
+
+<div class="article-actions">
+
+<%= link_to "Edit this article", edit_article_path(article), class: "btn btn-xs btn-primary" %>
+
+<%= link_to "Delete this article", article_path(article), method: :delete,
+
+data: { confirm: "Are you sure you want to delete the article?"},
+
+class: "btn btn-xs btn-danger" %>
+
+</div>
+
+<% end %>
+
+</div>
+
+</div>
+
+</div>
+
+<% end %>
+
+Updated show.html.erb (show articles) page in the app/views/articles folder:
+
+<h2 align="center">Title: <%= @article.title %></h2>
+
+<div class="well col-xs-8 col-xs-offset-2">
+
+<% if @article.user %>
+
+<ul class="listing">
+
+<div class="row center">
+
+<div class="col-md-4 col-md-offset-4">
+
+<li>Created by:</li>
+
+<li><%= link_to gravatar_for(@article.user), user_path(@article.user) %></li>
+
+<li class="article-title">
+
+<%= link_to @article.user.username, user_path(@article.user) %>
+
+</li>
+
+<li><small>
+
+<%= pluralize(@article.user.articles.count, "article") if @article.user.articles %>
+
+</small></li>
+
+</div>
+
+</div>
+
+</ul>
+
+<% end %>
+
+<h4 class="center description"><strong>Description:</strong></h4>
+
+<hr>
+
+<%= simple_format(@article.description) %>
+
+<div class="article-actions">
+
+<% if logged_in? && current_user == @article.user %>
+
+<%= link_to "Edit this article", edit_article_path(@article), class: "btn btn-xs btn-primary" %>
+
+<%= link_to "Delete this article", article_path(@article), method: :delete,
+
+data: { confirm: "Are you sure you want to delete the article?"},
+
+class: "btn btn-xs btn-danger" %>
+
+<% end %>
+
+<%= link_to "View all articles", articles_path, class: "btn btn-xs btn-success" %>
+
+</div>
+
+</div>
+
+Update the home action in the pages_controller.rb file to look like below:
+
+def home
+
+redirect_to articles_path if logged_in?
+
+end
+
+
+
+
+Restrict Actions in Controller - Text directions and code
+Section 6, Lecture 120
+Completed articles_controller.rb file:
+
+class ArticlesController < ApplicationController
+
+before_action :set_article, only: [:edit, :update, :show, :destroy]
+
+before_action :require_user, except: [:index, :show]
+
+before_action :require_same_user, only: [:edit, :update, :destroy]
+
+def index
+
+@articles = Article.paginate(page: params[:page], per_page: 5)
+
+end
+
+def new
+
+@article = Article.new
+
+end
+
+def edit
+
+end
+
+def create
+
+@article = Article.new(article_params)
+
+@article.user = current_user
+
+if @article.save
+
+flash[:success] = "Article was successfully created"
+
+redirect_to article_path(@article)
+
+else
+
+render 'new'
+
+end
+
+end
+
+def update
+
+if @article.update(article_params)
+
+flash[:success] = "Article was successfully updated"
+
+redirect_to article_path(@article)
+
+else
+
+render 'edit'
+
+end
+
+end
+
+def show
+
+end
+
+def destroy
+
+@article.destroy
+
+flash[:danger] = "Article was successfully deleted"
+
+redirect_to articles_path
+
+end
+
+private
+
+def set_article
+
+@article = Article.find(params[:id])
+
+end
+
+def article_params
+
+params.require(:article).permit(:title, :description)
+
+end
+
+def require_same_user
+
+if current_user != @article.user
+
+flash[:danger] = "You can only edit or delete your own articles"
+
+redirect_to root_path
+
+end
+
+end
+
+end
+
+Completed users_controller.rb file
+
+class UsersController < ApplicationController
+
+before_action :set_user, only: [:edit, :update, :show]
+
+before_action :require_same_user, only: [:edit, :update]
+
+def index
+
+@users = User.paginate(page: params[:page], per_page: 5)
+
+end
+
+def new
+
+@user = User.new
+
+end
+
+def create
+
+@user = User.new(user_params)
+
+if @user.save
+
+flash[:success] = "Welcome to the alpha blog #{@user.username}"
+
+redirect_to articles_path
+
+else
+
+render 'new'
+
+end
+
+end
+
+def edit
+
+end
+
+def update
+
+if @user.update(user_params)
+
+flash[:success] = "Your account was updated successfully"
+
+redirect_to articles_path
+
+else
+
+render 'edit'
+
+end
+
+end
+
+def show
+
+@user_articles = @user.articles.paginate(page: params[:page], per_page: 5)
+
+end
+
+private
+
+def user_params
+
+params.require(:user).permit(:username, :email, :password)
+
+end
+
+def set_user
+
+@user = User.find(params[:id])
+
+end
+
+def require_same_user
+
+if current_user != @user
+
+flash[:danger] = "You can only edit your own account"
+
+redirect_to root_path
+
+end
+
+end
+
+end
+
+To deploy to heroku, first ensure you have committed all your changes to your git repo, then:
+
+git push heroku master
+
+Then run any pending migrations in heroku:
+
+heroku run rake db:migrate
+
+Don't forget to post a link to your heroku app to the discussions area!
+
+
+
+
+Sign in Upon Signup - Text directions and code
+Section 6, Lecture 122
+Update the users controller create action to look like the following:
+
+def create
+
+@user = User.new(user_params)
+
+if @user.save
+
+session[:user_id] = @user.id
+
+flash[:success] = "Welcome to the alpha blog #{@user.username}"
+
+redirect_to user_path(@user)
+
+else
+
+render 'new'
+
+end
+
+end
+
+
+
+Add Admin User - Text directions and code
+Section 6, Lecture 124
+To generate a migration and add the admin column to users table:
+
+rails generate migration add_admin_to_users
+
+Within the migration file, in the def change method, add in the following code:
+
+add_column :users, :admin, :boolean, default: false
+
+Then run rake db:migrate to run the migration file and add the column to the users table:
+
+rake db:migrate
+
+Jump on rails console and you can grab a user object and set the user to admin by setting their admin column to true:
+
+user = User.find(idofuser)
+
+or
+
+user = User.last or User.first or User.find_by(email: "emailofuser")
+
+user.admin?
+
+user.toggle!(:admin)
+
+Then user.admin? # should be true at this point
+
+Update require_same_user method in the articles_controller.rb file:
+
+def require_same_user
+
+if current_user != @article.user and !current_user.admin?
+
+flash[:danger] = "You can only edit or delete your own articles"
+
+redirect_to root_path
+
+end
+
+end
+
+Then proceed to articles views, in the _article.html.erb partial under the app/views/articles folder, update the line where you're checking for <% if logged_in? &&....%> to:
+
+<% if logged_in? && (current_user == article.user || current_user.admin?) %>
+
+Make the same update to the show.html.erb file under app/views/articles folder:
+
+<% if logged_in? && (current_user == article.user || current_user.admin?) %>
+
+In _navigation.html.erb partial under app/views/layouts folder add admin next to where you display Your Profile:
+
+Your Profile <%= "Admin" if current_user.admin? %>
+
+
+
+Complete Admin User - Text directions, references and code
+Section 6, Lecture 126
+Updated users_controller.rb file (several updates):
+
+class UsersController < ApplicationController
+
+before_action :set_user, only: [:edit, :update, :show]
+
+before_action :require_same_user, only: [:edit, :update, :destroy]
+
+before_action :require_admin, only: [:destroy]
+
+def index
+
+@users = User.paginate(page: params[:page], per_page: 5)
+
+end
+
+def new
+
+@user = User.new
+
+end
+
+def create
+
+@user = User.new(user_params)
+
+if @user.save
+
+session[:user_id] = @user.id
+
+flash[:success] = "Welcome to the alpha blog #{@user.username}"
+
+redirect_to user_path(@user)
+
+else
+
+render 'new'
+
+end
+
+end
+
+def edit
+
+end
+
+def update
+
+if @user.update(user_params)
+
+flash[:success] = "Your account was updated successfully"
+
+redirect_to articles_path
+
+else
+
+render 'edit'
+
+end
+
+end
+
+def show
+
+@user_articles = @user.articles.paginate(page: params[:page], per_page: 5)
+
+end
+
+def destroy
+
+@user = User.find(params[:id])
+
+@user.destroy
+
+flash[:danger] = "User and all articles created by user have been deleted"
+
+redirect_to users_path
+
+end
+
+private
+
+def user_params
+
+params.require(:user).permit(:username, :email, :password)
+
+end
+
+def set_user
+
+@user = User.find(params[:id])
+
+end
+
+def require_same_user
+
+if current_user != @user and !current_user.admin?
+
+flash[:danger] = "You can only edit your own account"
+
+redirect_to root_path
+
+end
+
+end
+
+def require_admin
+
+if logged_in? and !current_user.admin?
+
+flash[:danger] = "Only admin users can perform that action"
+
+redirect_to root_path
+
+end
+
+end
+
+end
+
+Updated user.rb model file under app/models folder:
+
+class User < ActiveRecord::Base
+
+has_many :articles, dependent: :destroy
+
+before_save { self.email = email.downcase }
+
+validates :username, presence: true,
+
+uniqueness: { case_sensitive: false },
+
+length: { minimum: 3, maximum: 25 }
+
+VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+
+validates :email, presence: true, length: { maximum: 105 },
+
+uniqueness: { case_sensitive: false },
+
+format: { with: VALID_EMAIL_REGEX }
+
+has_secure_password
+
+end
+
+Updated index.html.erb file under app/views/users folder:
+
+<h1 align="center">All Alpha Bloggers</h1>
+
+<div align="center">
+
+<%= will_paginate %>
+
+<% @users.each do |user| %>
+
+<ul class="listing">
+
+<div class="row">
+
+<div class="well col-md-4 col-md-offset-4">
+
+<li><%= link_to gravatar_for(user), user_path(user) %></li>
+
+<li class="article-title">
+
+<%= link_to user.username, user_path(user) %>
+
+</li>
+
+<li><small><%= pluralize(user.articles.count, "article") if user.articles %></small></li>
+
+<% if logged_in? and current_user.admin? %>
+
+<li><%= link_to "Delete this user", user_path(user), method: :delete,
+
+data: { confirm: "Are you sure you want to delete the user and all their articles?" } %></li>
+
+<% end %>
+
+</div>
+
+</div>
+
+</ul>
+
+<% end %>
+
+<%= will_paginate %>
+
+</div>
+
+To deploy to heroku, ensure you have committed your code to your git repo, then:
+
+git push heroku master
+
+Then run any pending migrations:
+
+heroku run rake db:migrate
+
+To set admin user from heroku app run:
+
+heroku run rails console
+
+Then grab a user (example, user = User.last):
+
+user.toggle!(:admin)
+
+That will set the admin column to true (if it was false)
+
+Homework assignment for section 7:
+
+Read http://guides.rubyonrails.org/association_basics.h... and try to come up with 2 many-to-many association examples in 1 to 2 lines (let's say between patients and doctors as an example) and post them to the discussions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
